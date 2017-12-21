@@ -93,25 +93,20 @@ Context mContext;
         JSONArray jRoutes = null;
         JSONArray jLegs = null;
         JSONArray jSteps = null;
-Log.e("In Parse function","func");
+
         try {
 
             jRoutes = jObject.getJSONArray("routes");
-            Log.e("a","jroutes fetched");
             /** Traversing all routes */
             for(int i=0;i<jRoutes.length();i++) {
-                Log.e("a", "in for loop");
                 jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
-                Log.e("a", "jLegs fetched");
                 for (int j = 0; j < jLegs.length(); j++) {
                     MapsActivity.dur   = (String) ((JSONObject) ((JSONObject) jLegs.get(j)).get("duration")).get("text");
                     MapsActivity.dis = (String) ((JSONObject)    ((JSONObject) jLegs.get(j)).get("distance")).get("text");
                     start_address=(String)((JSONObject) jLegs.get(j)).get("start_address");
                     end_address=(String)((JSONObject) jLegs.get(j)).get("end_address");
-                    Log.e("Querry Database","1");
-                   ID = rp.getRouteCount()+1;
-                    Log.e("Count is", ID+"");
-                    rp.insertRouteAddress(ID,start_address,end_address);
+                    ID = rp.getLastId()+1;
+
                 }
                 List path = new ArrayList<HashMap<String, String>>();
 
@@ -123,7 +118,6 @@ Log.e("In Parse function","func");
                     /** Traversing all steps */
                     for (int k = 0; k < jSteps.length(); k++) {
                         String polyline = "";
-                        Log.e("In Jsteps",k+"");
                         voicetext = (String) (((JSONObject) jSteps.get(k)).get("html_instructions"));
                         if (checkRight(voicetext))
                             voicetext = "Turn Right";
@@ -144,10 +138,8 @@ Log.e("In Parse function","func");
                             }
                         }
                         polyline = (String) ((JSONObject) ((JSONObject) jSteps.get(k)).get("polyline")).get("points");
-                        // List list=getPoints(new LatLng(start_lat,start_lng),new LatLng(end_lat,end_lng),voicetext);
                         List list = decodePoly(polyline);
-//
-//
+
                         for(int z=0;z<list.size();z++)
                         {
                             Log.e("got some points","points");
@@ -155,19 +147,7 @@ Log.e("In Parse function","func");
                             String longitude=Double.toString(((LatLng) list.get(z)).longitude);
                             rp.insertRouteLocation(ID,latitude,longitude);
                         }
-//                        for(int z=0;z<list.size();z++)
-//                        {
-//                            Log.e("got some points","points");
-//                            String latitude=Double.toString(((LatLng) list.get(z)).latitude);
-//                            String longitude=Double.toString(((LatLng) list.get(z)).longitude);
-//                            ContentValues values = new ContentValues();
-//                            values.put(RouteContract._ID,RouteContract.ID);
-//                            values.put(RouteContract.COLUMN_LATITUDE, latitude);
-//                            values.put(RouteContract.COLUMN_LONGITUDE, longitude);
-//
-//                            long id = RouteProvider.insertRouteLocation(values);
-//
-//                        } //database walay kaam mai hi koi masla araha
+
                          for(int y = 0 ; y <list.size()-1; y++) { //since the points are not in equal space..so breaking them into equal spaces
                             List bp = getInBetweenPoints((LatLng) list.get(y), (LatLng) list.get(y + 1));
                             if (bp != null) {
@@ -195,10 +175,10 @@ Log.e("In Parse function","func");
                                 voicelist.add("no");
                             }
                         }
-if(!MapsActivity.history_Route) {
-    voicelist.remove(voicelist.size() - 1);
-    voicelist.add(voicetext);
-}
+                        if(!MapsActivity.history_Route) {
+                             voicelist.remove(voicelist.size() - 1);
+                              voicelist.add(voicetext);
+                            }
                     }
 
                         Double lat = (Double) ((JSONObject) ((JSONObject) jSteps.get(jSteps.length() - 1)).get("end_location")).get("lat");
@@ -216,6 +196,7 @@ if(!MapsActivity.history_Route) {
 
                         routes.add(path);
                     }
+                rp.insertRouteAddress(ID,start_address,end_address,MapsActivity.dis,MapsActivity.dur);
                 Log.e("DB Points",rp.getPointsCount()+"");
                 Log.e("DB Address",rp.getRouteCount()+"");
                 }
@@ -232,7 +213,7 @@ if(!MapsActivity.history_Route) {
         return routes;
     }
     public static List getInBetweenPoints(LatLng point1, LatLng point2){
-        double v=0.00001789875;  //25m step
+        double v=0.00001889875;  //Around 55m step
         List points =new ArrayList();
         int lat_steps=(int)Math.abs((point2.latitude-point1.latitude)/v);
         int  lng_steps=(int)Math.abs((point2.longitude-point1.longitude)/v);

@@ -178,10 +178,13 @@ String url;
                 secondlocation_btn.setEnabled(false);
                 firstmarker.remove();
                 secondmarker.remove();
-                m.remove();
-                m = mMap.addMarker(new MarkerOptions()
-                        .position(secondLocation)
-                        .title("Set Location"));
+                if(m!=null) {
+                    m.remove();
+                }
+                    m = mMap.addMarker(new MarkerOptions()
+                            .position(secondLocation)
+                            .title("Set Location"));
+
                 distance.setText("Distance : ");
                 duration.setText("Duration : ");
                 History_btn.setEnabled(true);
@@ -200,10 +203,10 @@ String url;
         });
         if(history_Route==true) {
             ii = 0;
-            //direct point utha k us ka first pe first marker aur last pe end marker draw karlengay
+            firstlocation_btn.setEnabled(false);
+            secondlocation_btn.setEnabled(false);
+            clearlocation_btn.setEnabled(false);
             cursor_points = getAllpoints(DirectionsJSONParser.c);
-            // ub in between points wala kaam hoga
-            Log.e("Cursor points count ",cursor_points.size()+"");
             for (int i = 0; i < cursor_points.size() - 1; i++) {
                 List bp = DirectionsJSONParser.getInBetweenPoints((LatLng) cursor_points.get(i), (LatLng) cursor_points.get(i + 1));
                 if (bp != null) {
@@ -214,9 +217,18 @@ String url;
                     points.add(cursor_points.get(i));
                 }
             }
-
+            distance.setText("Distance : "+dis);
+            duration.setText("Duration : "+dur);
             allPoints = points;
         }
+        runnable = new Runnable() {
+            //Marker m = mMap.addMarker(new MarkerOptions().position((LatLng) allPoints.get(ii)));
+            @Override
+            public void run() {
+                marker.remove();
+                animateMarker();
+            }
+        };
     }
 
     @Override
@@ -225,9 +237,7 @@ String url;
         mMap = googleMap;
         if(history_Route==true){
             ii=0;
-            //direct point utha k us ka first pe first marker aur last pe end marker draw karlengay
             cursor_points = getAllpoints(DirectionsJSONParser.c);
-            // ub in between points wala kaam hoga
             for(int i=0; i<cursor_points.size()-1; i++){
                 List bp = DirectionsJSONParser.getInBetweenPoints((LatLng) cursor_points.get(i), (LatLng) cursor_points.get(i + 1));
                 if (bp != null) {
@@ -246,10 +256,10 @@ String url;
                 mMap.getUiSettings().setZoomControlsEnabled(true);
                 ParserTask parser = new ParserTask();
                 parser.drawPolylines(points, new PolylineOptions());
-
-                firstmarker = mMap.addMarker(new MarkerOptions().position((LatLng) allPoints.get(0)));
-                secondmarker = mMap.addMarker(new MarkerOptions().position((LatLng) allPoints.get(allPoints.size() - 1)));
-                Log.e("allpoints size fetched",allPoints.size()+"");
+                secondLocation = (LatLng) allPoints.get(allPoints.size() - 1);
+                firstmarker = mMap.addMarker(new MarkerOptions().position((LatLng) allPoints.get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                secondmarker = mMap.addMarker(new MarkerOptions().position((LatLng) allPoints.get(allPoints.size() - 1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+             //   Log.e("allpoints size fetched",allPoints.size()+"");
                 animateMarker();
             }
             else
@@ -303,7 +313,7 @@ private  List getAllpoints(Cursor c){
 
         // looping through all rows and adding to list
         if (c != null) {
-            Log.e("c is not null","");
+          //  Log.e("c is not null","");
             c.moveToFirst();
             while ((!c.isAfterLast())) {
                 list.add(new LatLng(Double.parseDouble(c.getString(1)), Double.parseDouble(c.getString(2))));
@@ -413,7 +423,7 @@ private  List getAllpoints(Cursor c){
 
             try {
                 jObject = new JSONObject(jsonData[0]);
-                Log.e("Json Data","");
+             //   Log.e("Json Data","");
                 DirectionsJSONParser parser = new DirectionsJSONParser(firstLocation, secondLocation,getApplicationContext());
 
                 routes = parser.parse(jObject);
@@ -456,26 +466,36 @@ private  List getAllpoints(Cursor c){
             allPoints = points;
             if(!history_Route) {
                 voice = DirectionsJSONParser.voicelist;
-                Log.e("Voice List size", voice.size() + "");
+              //  Log.e("Voice List size", voice.size() + "");
             }
 //            Log.e("Points List size",allPoints.size()+"");
             if(allPoints !=null)
             if (allPoints.size() > 0) {
                 animateMarker();
-                runnable = new Runnable() {
-                    //Marker m = mMap.addMarker(new MarkerOptions().position((LatLng) allPoints.get(ii)));
-                    @Override
-                    public void run() {
-                        marker.remove();
-                        animateMarker();
-                    }
-                };
+
 
                 if(points != null && points.size() >0) {
                      drawPolylines(points, lineOptions);
                 }
 
-            } else {
+            }
+            else if(MapsActivity.dis.equalsIgnoreCase("Distance : null")) {  //handles null case
+                firstlocation_btn.setEnabled(true);
+                secondlocation_btn.setEnabled(false);
+                firstmarker.remove();
+                secondmarker.remove();
+                if(m!=null) {
+                    m.remove();
+                }
+                m = mMap.addMarker(new MarkerOptions()
+                        .position(secondLocation)
+                        .title("Set Location"));
+
+                distance.setText("Distance : ");
+                duration.setText("Duration : ");
+                History_btn.setEnabled(true);
+            }else
+             {
                 Toast.makeText(getApplicationContext(), "Points Not fetched, Retrying.. Please Check Your Network Connection", Toast.LENGTH_SHORT).show();
                 DownloadTask downloadTask = new DownloadTask(); //RESTART DOWNLOADING
                 downloadTask.execute(url);
@@ -573,6 +593,8 @@ public void drawPolylines(List points,PolylineOptions lineOptions){
                             marker.setVisible(true);
 
                     }
+                 //   Log.e("ii",ii+"");
+                  //  Log.e("all points size in",allPoints.size()+"");
                     if (ii < allPoints.size() - 2) {
                        // drawGreenLine();
 
@@ -585,16 +607,17 @@ public void drawPolylines(List points,PolylineOptions lineOptions){
                             if(ii==0) {
                                 Toast.makeText(getApplicationContext(), "Journey started", Toast.LENGTH_SHORT).show();
                             }
-                            tt.speak(voicetospeak,TextToSpeech.QUEUE_FLUSH,null);
+                            if(!history_Route)
+                          tt.speak(voicetospeak,TextToSpeech.QUEUE_FLUSH,null);
                         }
                         ii++;
-                        handler.postDelayed(runnable, 50);
+                        handler.postDelayed(runnable, 30);
                     }
                     else{
                         tt.speak("You reached your destination",TextToSpeech.QUEUE_FLUSH,null);
                         Toast.makeText(getApplicationContext(), "You have reached your destination", Toast.LENGTH_SHORT).show();
                         marker.remove();
-                        m.setTitle("Destination");
+                       // m.setTitle("Destination");
                         clearlocation_btn.setEnabled(true);
                     }
                 }

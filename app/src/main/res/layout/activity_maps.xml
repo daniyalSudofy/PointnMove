@@ -14,15 +14,19 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="Set First"
+            android:background="#ffe4e1"
             android:id="@+id/first_loc_btn"
+            android:layout_margin="5dp"
             />
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="Set Second"
+            android:background="#ffe4e1"
             android:id="@+id/second_loc_btn"
             android:enabled="false"
+            android:layout_margin="5dp"
             />
         <Button
             android:layout_width="0dp"
@@ -30,6 +34,9 @@
             android:layout_height="match_parent"
             android:text="Clear"
             android:id="@+id/clear_btn"
+            android:background="#f08080"
+            android:enabled="false"
+            android:layout_margin="5dp"
             />
     </LinearLayout>
 
@@ -46,6 +53,7 @@
             android:id="@+id/duration"
             android:text="Duration : "
             android:layout_marginLeft="6dp"
+            android:textStyle="bold"
 
             />
         <TextView
@@ -54,7 +62,7 @@
             android:layout_height="match_parent"
             android:id="@+id/distance"
             android:text="Distance : "
-
+            android:textStyle="bold"
 
             />
 
@@ -79,31 +87,31 @@
         android:layout_marginLeft="6dp">
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:text="Re-Center"
             android:textSize="12dp"
-            android:textColor="#fff"
+            android:textColor="#000"
             android:id="@+id/Recenter_btn"
-            android:background="#000"
+            android:background="#7fffd4"
             />
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:text="Explore"
             android:textSize="12dp"
-            android:textColor="#fff"
-            android:background="#000"
+            android:textColor="#000"
+            android:background="#7fffd4"
             android:layout_marginLeft="6dp"
             android:id="@+id/Explore_btn"
             />
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:text="History"
             android:textSize="12dp"
-            android:textColor="#fff"
-            android:background="#000"
+            android:textColor="#000"
+            android:background="#7fffd4"
             android:layout_marginLeft="6dp"
             android:id="@+id/history_btn"/>
     </LinearLayout>
