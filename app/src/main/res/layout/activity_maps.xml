@@ -45,6 +45,7 @@
             android:layout_height="match_parent"
             android:id="@+id/duration"
             android:text="Duration : "
+            android:layout_marginLeft="6dp"
 
             />
         <TextView
@@ -68,5 +69,43 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8"
+
         tools:context="com.example.zubair.cg.MapsActivity"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="-40dp"
+        android:layout_marginLeft="6dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Re-Center"
+            android:textSize="12dp"
+            android:textColor="#fff"
+            android:id="@+id/Recenter_btn"
+            android:background="#000"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Explore"
+            android:textSize="12dp"
+            android:textColor="#fff"
+            android:background="#000"
+            android:layout_marginLeft="6dp"
+            android:id="@+id/Explore_btn"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="History"
+            android:textSize="12dp"
+            android:textColor="#fff"
+            android:background="#000"
+            android:layout_marginLeft="6dp"
+            android:id="@+id/history_btn"/>
+    </LinearLayout>
+
 </LinearLayout>
