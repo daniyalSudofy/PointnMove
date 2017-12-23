@@ -45,7 +45,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.7"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="3">
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -65,6 +65,17 @@
             android:textStyle="bold"
 
             />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Start"
+            android:id="@+id/start_btn"
+            android:background="#f08080"
+            android:enabled="false"
+            android:layout_margin="5dp"
+            />
+
 
     </LinearLayout>
 

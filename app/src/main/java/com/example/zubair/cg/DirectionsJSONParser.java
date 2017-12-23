@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -106,6 +107,7 @@ Context mContext;
                     start_address=(String)((JSONObject) jLegs.get(j)).get("start_address");
                     end_address=(String)((JSONObject) jLegs.get(j)).get("end_address");
                     ID = rp.getLastId()+1;
+                    rp.insertRouteLocation(ID,Double.toString(firstLocation.latitude),Double.toString(firstLocation.longitude));
 
                 }
                 List path = new ArrayList<HashMap<String, String>>();
@@ -197,6 +199,7 @@ Context mContext;
                         routes.add(path);
                     }
                 rp.insertRouteAddress(ID,start_address,end_address,MapsActivity.dis,MapsActivity.dur);
+                rp.insertRouteLocation(ID,Double.toString(secondLocation.latitude), Double.toString(secondLocation.longitude));
                 Log.e("DB Points",rp.getPointsCount()+"");
                 Log.e("DB Address",rp.getRouteCount()+"");
                 }

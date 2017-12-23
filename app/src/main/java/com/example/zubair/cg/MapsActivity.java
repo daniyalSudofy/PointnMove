@@ -56,7 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     Marker firstmarker, secondmarker, m;
-    Button firstlocation_btn, secondlocation_btn, clearlocation_btn,ReCenter,Explore,History_btn;
+    Button firstlocation_btn, secondlocation_btn, clearlocation_btn,ReCenter,Explore,History_btn,start_btn;
     LatLng firstLocation, secondLocation, general;
     Polyline mPolyline;
     List allPoints;
@@ -98,6 +98,7 @@ String url;
         polyLines_green=new ArrayList<Polyline>();
         cursor_points = new ArrayList();
         allPoints = new ArrayList();
+        start_btn=(Button)findViewById(R.id.start_btn);
 //ub start aur end marker draw karnay hain
         //cursors se
 
@@ -129,7 +130,14 @@ String url;
 
             }
         });
-
+start_btn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        animateMarker();
+        clearlocation_btn.setEnabled(false);
+        start_btn.setEnabled(false);
+    }
+});
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -160,6 +168,7 @@ String url;
                 );
                 secondlocation_btn.setEnabled(false);
                 clearlocation_btn.setEnabled(false);
+                start_btn.setEnabled(true);
               //  tt.speak("Journey Started",TextToSpeech.QUEUE_FLUSH,null);
                 url = getDirectionsUrl(firstLocation, secondLocation);
 
@@ -260,7 +269,7 @@ String url;
                 firstmarker = mMap.addMarker(new MarkerOptions().position((LatLng) allPoints.get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
                 secondmarker = mMap.addMarker(new MarkerOptions().position((LatLng) allPoints.get(allPoints.size() - 1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
              //   Log.e("allpoints size fetched",allPoints.size()+"");
-                animateMarker();
+               // animateMarker();
             }
             else
                 Toast.makeText(getApplicationContext(),"No Points Fetched",Toast.LENGTH_SHORT);
@@ -471,7 +480,7 @@ private  List getAllpoints(Cursor c){
 //            Log.e("Points List size",allPoints.size()+"");
             if(allPoints !=null)
             if (allPoints.size() > 0) {
-                animateMarker();
+                //animateMarker();
 
 
                 if(points != null && points.size() >0) {
