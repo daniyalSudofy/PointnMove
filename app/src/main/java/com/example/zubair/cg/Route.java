@@ -26,6 +26,7 @@ if(cursor==null || cursor.getCount()==0){
 }
         // Find the ListView which will be populated with the Route data
         ListView RouteListView = (ListView) findViewById(R.id.list);
+        RouteListView.setVisibility(View.VISIBLE);
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
 
 

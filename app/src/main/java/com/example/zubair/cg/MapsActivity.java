@@ -130,7 +130,7 @@ String url;
 
             }
         });
-start_btn.setOnClickListener(new View.OnClickListener() {
+        start_btn.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         animateMarker();
@@ -187,6 +187,7 @@ start_btn.setOnClickListener(new View.OnClickListener() {
                 secondlocation_btn.setEnabled(false);
                 firstmarker.remove();
                 secondmarker.remove();
+                history_Route = false;
                 if(m!=null) {
                     m.remove();
                 }
@@ -215,6 +216,7 @@ start_btn.setOnClickListener(new View.OnClickListener() {
             firstlocation_btn.setEnabled(false);
             secondlocation_btn.setEnabled(false);
             clearlocation_btn.setEnabled(false);
+            start_btn.setEnabled(true);
             cursor_points = getAllpoints(DirectionsJSONParser.c);
             for (int i = 0; i < cursor_points.size() - 1; i++) {
                 List bp = DirectionsJSONParser.getInBetweenPoints((LatLng) cursor_points.get(i), (LatLng) cursor_points.get(i + 1));
@@ -270,6 +272,7 @@ start_btn.setOnClickListener(new View.OnClickListener() {
                 secondmarker = mMap.addMarker(new MarkerOptions().position((LatLng) allPoints.get(allPoints.size() - 1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
              //   Log.e("allpoints size fetched",allPoints.size()+"");
                // animateMarker();
+
             }
             else
                 Toast.makeText(getApplicationContext(),"No Points Fetched",Toast.LENGTH_SHORT);
@@ -481,7 +484,7 @@ private  List getAllpoints(Cursor c){
             if(allPoints !=null)
             if (allPoints.size() > 0) {
                 //animateMarker();
-
+                clearlocation_btn.setEnabled(true);
 
                 if(points != null && points.size() >0) {
                      drawPolylines(points, lineOptions);

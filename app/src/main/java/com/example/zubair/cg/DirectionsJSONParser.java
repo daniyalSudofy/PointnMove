@@ -296,7 +296,7 @@ Context mContext;
         return poly;
     }
 
-    boolean checkRight(String text){
+    boolean checkLeft(String text){
         for (int i = 0; i < text.length()-3; i++)
         {
             if (text.charAt(i) == 'l') {
@@ -317,7 +317,7 @@ Context mContext;
         }
 return  false;
     }
-    boolean checkLeft(String text){
+    boolean checkRight(String text){
         for (int i = 0; i < text.length()-4; i++)
         {
             if (text.charAt(i) == 'r') {

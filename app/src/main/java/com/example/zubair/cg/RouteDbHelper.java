@@ -1,6 +1,5 @@
 package com.example.zubair.cg;
 
-import com.example.zubair.cg.RouteContract;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;

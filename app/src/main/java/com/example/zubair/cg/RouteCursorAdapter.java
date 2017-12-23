@@ -45,8 +45,9 @@ public class RouteCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, final Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, final Cursor cursor) {
         mView = view;
+
         TextView startAddressTextView = (TextView) view.findViewById(R.id.start_address);
         TextView endAddressTextView = (TextView) view.findViewById(R.id.end_address);
         Button delete_btn = (Button) view.findViewById(R.id.delete_btn);
@@ -64,13 +65,15 @@ public class RouteCursorAdapter extends CursorAdapter {
         delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //mView.setVisibility(View.GONE);
                 if(rp.DeleteRoute(routeId+"")){
-                    Toast.makeText(mView.getContext(),"Route Deleted Successfully",Toast.LENGTH_SHORT);
-                    mView.setVisibility(View.GONE);
+                    cursor.requery();
+                    notifyDataSetChanged();
+                    Toast.makeText(context,"Route Deleted Successfully",Toast.LENGTH_SHORT);
+
                 }
                 else
-                    Toast.makeText(mView.getContext(),"Route Deleted Successfully",Toast.LENGTH_SHORT);
+                    Toast.makeText(context,"Error Deleting Route",Toast.LENGTH_SHORT);
             }
         });
         start_btn.setOnClickListener(new View.OnClickListener() {

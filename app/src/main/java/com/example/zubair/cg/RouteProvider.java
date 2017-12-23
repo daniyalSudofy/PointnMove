@@ -40,13 +40,6 @@ public class RouteProvider  {
         mContext = context.getApplicationContext();
         mDatabase = new RouteDbHelper(mContext).getWritableDatabase();
     }
-
-    public void deleteAllRoutes() {
-
-        SQLiteDatabase database = mDbHelper.getWritableDatabase();
-        database.execSQL("delete from "+ RouteContract.TABLE_ROUTE_ADDRESS);
-        database.execSQL("delete from "+ RouteContract.TABLE_ROUTE_LOCATION);
-    }
     public boolean  DeleteRoute(String ID){
         try {
             mDatabase.execSQL("DELETE FROM Address Where _id LIKE '%" + ID + "%'");
