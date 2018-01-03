@@ -136,9 +136,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         start_btn.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        animateMarker();
-        clearlocation_btn.setEnabled(false);
-        start_btn.setEnabled(false);
+        if(allPoints != null) {
+            animateMarker();
+            clearlocation_btn.setEnabled(false);
+            start_btn.setEnabled(false);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"Points Not Fetched, Please Retry..!!",Toast.LENGTH_SHORT).show();
+            url = getDirectionsUrl(firstLocation, secondLocation);
+            DownloadTask downloadTask = new DownloadTask();
+            downloadTask.execute(url);
+        }
+
     }
 });
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
