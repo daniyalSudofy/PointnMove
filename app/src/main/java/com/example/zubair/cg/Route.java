@@ -20,10 +20,7 @@ public class Route extends AppCompatActivity {
         setContentView(R.layout.activity_route);
         noRoutes = (TextView) findViewById(R.id.noRoutes);
         rp = RouteProvider.get(getApplicationContext());
-        Cursor cursor = rp.getRoutesAddress();
-if(cursor==null || cursor.getCount()==0){
-    noRoutes.setVisibility(View.VISIBLE);
-}
+
         // Find the ListView which will be populated with the Route data
         ListView RouteListView = (ListView) findViewById(R.id.list);
         RouteListView.setVisibility(View.VISIBLE);
@@ -32,6 +29,7 @@ if(cursor==null || cursor.getCount()==0){
 
         // Setup an Adapter to create a list item for each row of Route data in the Cursor.
         // There is no Route data yet (until the loader finishes) so pass in null for the Cursor.
+        Cursor cursor = rp.getRoutesAddress();
         mCursorAdapter = new RouteCursorAdapter(this,cursor);
         RouteListView.setAdapter(mCursorAdapter);
 

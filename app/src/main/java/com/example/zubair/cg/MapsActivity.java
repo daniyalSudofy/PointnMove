@@ -1,11 +1,14 @@
 package com.example.zubair.cg;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -78,7 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     boolean reCenter = true;
     static boolean history_Route = false;   // is se identify hoga k hum history se ae hain ya new route set kar rahay
     List cursor_points;
-String url;
+    String url;
     RouteProvider rp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,21 +148,25 @@ String url;
         firstlocation_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firstLocation = general;
-                firstmarker = mMap.addMarker(new MarkerOptions()
-                        .position(firstLocation)
-                        .title("Start Location")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                );
+                if(checkConnectivity()) {
+                    firstLocation = general;
+                    firstmarker = mMap.addMarker(new MarkerOptions()
+                            .position(firstLocation)
+                            .title("Start Location")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    );
 
-                firstlocation_btn.setEnabled(false);
-                secondlocation_btn.setEnabled(true);
-                History_btn.setEnabled(false);
+                    firstlocation_btn.setEnabled(false);
+                    secondlocation_btn.setEnabled(true);
+                    History_btn.setEnabled(false);
+                }else
+                    Toast.makeText(getApplicationContext(),"No Internet Connection, Please Check Connections",Toast.LENGTH_SHORT).show();
             }
         });
         secondlocation_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(checkConnectivity()){
                 secondLocation = general;
                 secondmarker = mMap.addMarker(new MarkerOptions()
                         .position(secondLocation)
@@ -176,7 +183,8 @@ String url;
 
                 // Start downloading json data from Google Directions API
                 downloadTask.execute(url);
-
+                }else
+                    Toast.makeText(getApplicationContext(),"No Internet Connection, Please Check Connections",Toast.LENGTH_SHORT).show();
             }
         });
         clearlocation_btn.setOnClickListener(new View.OnClickListener() {
@@ -288,6 +296,7 @@ String url;
                     m = mMap.addMarker(new MarkerOptions()
                             .position(myLocation)
                             .title("Set Location"));
+                    m.setDraggable(true);
 
                 }
 
@@ -618,6 +627,7 @@ public void drawPolylines(List points,PolylineOptions lineOptions){
                             voicetospeak=(String) voice.get(ii);
                             if(ii==0) {
                                 Toast.makeText(getApplicationContext(), "Journey started", Toast.LENGTH_SHORT).show();
+                                tt.speak("Journey started",TextToSpeech.QUEUE_FLUSH,null);
                             }
                             if(!history_Route)
                           tt.speak(voicetospeak,TextToSpeech.QUEUE_FLUSH,null);
@@ -636,6 +646,16 @@ public void drawPolylines(List points,PolylineOptions lineOptions){
 
             });
         }
+    public boolean checkConnectivity(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            return true;
+        }
+        else
+            return false;
+    }
     }
 
 
