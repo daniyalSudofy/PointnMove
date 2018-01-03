@@ -71,14 +71,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static String dur;
     List<Polyline> polyLines;
     List<Polyline> polyLines_green;
-   PolylineOptions greenlineOptions;
+    PolylineOptions greenlineOptions;
     String voicenottospeak="no";
     String voicetospeak;
     List voice;
     boolean reCenter = true;
     static boolean history_Route = false;   // is se identify hoga k hum history se ae hain ya new route set kar rahay
     List cursor_points;
-String url;
+    String url;
     RouteProvider rp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
