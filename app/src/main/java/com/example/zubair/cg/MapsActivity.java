@@ -79,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static String dur;
     List<Polyline> polyLines;
     List<Polyline> polyLines_green;
-   PolylineOptions greenlineOptions;
+    PolylineOptions greenlineOptions;
     String voicenottospeak="no";
     String voicetospeak;
     List voice;
