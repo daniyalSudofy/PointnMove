@@ -32,6 +32,27 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+        android:orientation="horizontal">
+        <TextView
+            android:text="Keyword : "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#2B3D4D"  />
+        <TextView
+            android:id="@+id/keyword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:layout_marginTop="-2dp"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="#fff"  />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView

@@ -88,9 +88,9 @@ public class RouteProvider  {
             return false;
         }
     }
-    public boolean insertRouteAddress(int ID,String start_address,String end_address,String distance, String duration) {
+    public boolean insertRouteAddress(int ID,String start_address,String end_address,String distance, String duration,String keyword) {
         try {
-            mDatabase.execSQL("Insert Into Address Values ( '" + ID + "','" + start_address + "','" + end_address + "','" + distance +"','" + duration + "')");
+            mDatabase.execSQL("Insert Into Address Values ( '" + ID + "','" + start_address + "','" + end_address + "','" + distance +"','" + duration + "','"+keyword+"')");
             return true;
         }
         catch (Exception e){

@@ -41,7 +41,7 @@ public class RouteDbHelper extends SQLiteOpenHelper{
 //                + RouteContract.COLUMN_START_ADDRESS + " TEXT NOT NULL, "
 //                + RouteContract.COLUMN_END_ADDRESS + " TEXT NOT NULL)";
         db.execSQL("Create table LatLngPoints(_id,Lattitude,Longitude)");
-        db.execSQL("Create table Address(_id,start_address VARCHAR,end_address VARCHAR,distance,duration)");
+        db.execSQL("Create table Address(_id,start_address VARCHAR,end_address VARCHAR,distance,duration,keyword)");
 
         // Create a String that contains the SQL statement to create the routes location table
 //        String SQL_CREATE_LOCATION_TABLE =  "CREATE TABLE " + RouteContract.TABLE_ROUTE_LOCATION + " ("

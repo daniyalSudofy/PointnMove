@@ -198,7 +198,7 @@ Context mContext;
 
                         routes.add(path);
                     }
-                rp.insertRouteAddress(ID,start_address,end_address,MapsActivity.dis,MapsActivity.dur);
+                rp.insertRouteAddress(ID,start_address,end_address,MapsActivity.dis,MapsActivity.dur,MapsActivity.keywordtext);
                 rp.insertRouteLocation(ID,Double.toString(secondLocation.latitude), Double.toString(secondLocation.longitude));
                 Log.e("DB Points",rp.getPointsCount()+"");
                 Log.e("DB Address",rp.getRouteCount()+"");

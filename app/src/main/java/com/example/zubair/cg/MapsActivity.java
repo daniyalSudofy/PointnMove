@@ -39,6 +39,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import android.Manifest;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,7 +69,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     List points;
     Marker marker;
     LatLng toPosition;
+    LinearLayout distance_duration;
     int ii;
+    public  EditText keyword;
+    public static String keywordtext;
     TextToSpeech tt;
     Runnable runnable;
     public static String dis;
@@ -90,6 +95,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         rp = RouteProvider.get(getApplicationContext());
         distance = (TextView) findViewById(R.id.distance);
         duration = (TextView) findViewById(R.id.duration);
+        keyword=(EditText) findViewById(R.id.keyword);
+        distance_duration=(LinearLayout)findViewById(R.id.distance_duration);
         points = new ArrayList();
         firstlocation_btn = (Button) findViewById(R.id.first_loc_btn);
         secondlocation_btn = (Button) findViewById(R.id.second_loc_btn);
@@ -169,6 +176,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     firstlocation_btn.setEnabled(false);
                     secondlocation_btn.setEnabled(true);
                     History_btn.setEnabled(false);
+                    distance_duration.setVisibility(View.GONE);
+                    keyword.setVisibility(View.VISIBLE);
+
                 }else
                     Toast.makeText(getApplicationContext(),"No Internet Connection, Please Check Connections",Toast.LENGTH_SHORT).show();
             }
@@ -190,7 +200,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 url = getDirectionsUrl(firstLocation, secondLocation);
 
                 DownloadTask downloadTask = new DownloadTask();
-
+                    keywordtext=keyword.getText().toString();
+                    keyword.setVisibility(View.GONE);
+distance_duration.setVisibility(View.VISIBLE);
                 // Start downloading json data from Google Directions API
                 downloadTask.execute(url);
                 }else
@@ -200,7 +212,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         clearlocation_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+keywordtext="";
+                keyword.setText("");
                 firstlocation_btn.setEnabled(true);
                 secondlocation_btn.setEnabled(false);
                 firstmarker.remove();
@@ -296,7 +309,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(getApplicationContext(),"No Points Fetched",Toast.LENGTH_SHORT);
 
         }else {
-
             final LatLng myLocation = new LatLng(24.945990468981336, 67.11514055728912);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14.0f));
             mMap.getUiSettings().setZoomControlsEnabled(true);

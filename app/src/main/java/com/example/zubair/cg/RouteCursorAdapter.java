@@ -4,6 +4,7 @@ package com.example.zubair.cg;
         import android.content.Context;
         import android.content.Intent;
         import android.database.Cursor;
+        import android.speech.tts.TextToSpeech;
         import android.support.v4.widget.CursorAdapter;
         import android.text.TextUtils;
         import android.util.Log;
@@ -50,6 +51,7 @@ public class RouteCursorAdapter extends CursorAdapter {
 
         TextView startAddressTextView = (TextView) view.findViewById(R.id.start_address);
         TextView endAddressTextView = (TextView) view.findViewById(R.id.end_address);
+        TextView keyword=(TextView) view.findViewById(R.id.keyword);
         Button delete_btn = (Button) view.findViewById(R.id.delete_btn);
         Button start_btn = (Button) view.findViewById(R.id.start_btn);
 
@@ -59,8 +61,14 @@ public class RouteCursorAdapter extends CursorAdapter {
         String routeEnd = cursor.getString(2);
         final String distance = cursor.getString(3);
         final String duration = cursor.getString(4);
+        final String keywordtext=cursor.getString(5);
         startAddressTextView.setText(routeStart);
         endAddressTextView.setText(routeEnd);
+        if(keywordtext.equals("")){
+            keyword.setVisibility(View.GONE);
+        }else{
+            keyword.setText(keywordtext);
+        }
 
         delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
