@@ -55,11 +55,11 @@ Context mContext;
             LatLng p = new LatLng(lat,lng);
             li.add(p);
             if(t==0){
-                if(!MapsActivity.history_Route)
+//                if(!MapsActivity.history_Route)
                 voicelist.add("Journey started");
             }
             else{
-                if(!MapsActivity.history_Route)
+//                if(!MapsActivity.history_Route)
                 voicelist.add("no");
             }
         }
@@ -75,14 +75,14 @@ Context mContext;
             //Log.e("Lat Lang",lat+" "+lng);
             LatLng p = new LatLng(lat,lng);
             li.add(p);
-            if(!MapsActivity.history_Route)
+//            if(!MapsActivity.history_Route)
             voicelist.add("no");
         }
         double lat = Lat  +(secondLocation.latitude-Lat)*1;
         double lng = Lng +(secondLocation.longitude-Lng)*1;
         LatLng p = new LatLng(lat,lng);
         li.add(p);
-        if(!MapsActivity.history_Route)
+//        if(!MapsActivity.history_Route)
         voicelist.add("You reach your destination");
 
         return  li;
@@ -158,14 +158,14 @@ Context mContext;
                                     hm.put("lat", Double.toString(((LatLng) bp.get(l)).latitude));
                                     hm.put("lng", Double.toString(((LatLng) bp.get(l)).longitude));
                                     path.add(hm);
-                                    if(!MapsActivity.history_Route)
+//                                    if(!MapsActivity.history_Route)
                                     voicelist.add("no");
                                 }
                                 HashMap<String, String> hm = new HashMap<String, String>();
                                 hm.put("lat", Double.toString(((LatLng) bp.get(bp.size()-1)).latitude));
                                 hm.put("lng", Double.toString(((LatLng) bp.get(bp.size()-1)).longitude));
                                 path.add(hm);
-                                if(!MapsActivity.history_Route)
+//                                if(!MapsActivity.history_Route)
                                 voicelist.add("no");
 
                             } else {
@@ -173,14 +173,14 @@ Context mContext;
                                 hm.put("lat", Double.toString(((LatLng) list.get(y)).latitude));
                                 hm.put("lng", Double.toString(((LatLng) list.get(y)).longitude));
                                 path.add(hm);
-                                if(!MapsActivity.history_Route)
+//                                if(!MapsActivity.history_Route)
                                 voicelist.add("no");
                             }
                         }
-                        if(!MapsActivity.history_Route) {
+//                        if(!MapsActivity.history_Route) {
                              voicelist.remove(voicelist.size() - 1);
                               voicelist.add(voicetext);
-                            }
+//                            }
                     }
 
                         Double lat = (Double) ((JSONObject) ((JSONObject) jSteps.get(jSteps.length() - 1)).get("end_location")).get("lat");
